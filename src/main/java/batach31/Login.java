@@ -18,6 +18,12 @@ public class Login {
     private final String password = "root";
 
     private Connection connect() {
+        /*try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -40,7 +46,7 @@ public class Login {
         Connection co = connect();
         try {
             Statement statement = co.createStatement();
-            statement.executeQuery("INSERT INTO USEREXAMPLE (UserName, PasswordHash) VALUES (" + username + hash(userPassword) + ");");
+            statement.executeQuery("INSERT INTO USEREXAMPLE (UserName, PasswordHash) VALUES ('" + username + "'," + hash(userPassword) + ");");
             System.out.println("Inserted " + username + " " + hash(userPassword));
         }catch(SQLException e){
             e.printStackTrace();
@@ -56,8 +62,9 @@ public class Login {
         int hash = hash(userPassword);
         try{
             Statement statement = co.createStatement();
-            registeredPassword = statement.executeQuery("SELECT PasswordHash FROM USEREXAMPLE WHERE UserName = " + username + ";");
-            pwToTest = registeredPassword.getInt(1);
+            registeredPassword = statement.executeQuery("SELECT PasswordHash FROM USEREXAMPLE WHERE UserName = '" + username + "';");
+            registeredPassword.next();
+            pwToTest = registeredPassword.getInt("PasswordHash");
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -73,8 +80,8 @@ public class Login {
 
     public static void main(String[] args) {
         Login log = new Login();
-        log.register("blah", "bloup");
-
+        //log.register("blah", "bloup");
+        log.log("blah", "bloup");
 
 
     }
