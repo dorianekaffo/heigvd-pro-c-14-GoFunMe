@@ -66,8 +66,10 @@ public class ServerThread implements Runnable {
         String line;
         boolean shouldRun = true;
 
-        output.println("Welcome to the Multi-Threaded Server.\nSend me text lines and conclude with the BYE command.");
+        output.println("Welcome on GoFunMe.\nSend me text lines and conclude with the BYE command.");
         output.flush();
+
+        /* test function */
         try {
             LOG.info("Reading until client sends BYE or closes the connection...");
             while ((shouldRun) && (line = input.readLine()) != null) {
